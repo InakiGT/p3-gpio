@@ -87,8 +87,7 @@ loop:
     	beq 	.L6     
 		mov		r0, r2
 		bl 		inc_count
-		b		loop
-
+		
 .L6:		
     	@ Check if A4 is pressed
     	ldr 	r0, =GPIOA_IDR
