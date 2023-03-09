@@ -53,17 +53,6 @@ setup:
         mov     r3, 0x1C 
         str     r3, [r0]
 
-        @ reset pin 0 to 7 in GPIOC_CRL
-        ldr     r0, =GPIOC_CRL 
-        ldr     r3, =0x44444444 
-        str     r3, [r0] 
-
-        @ reset pin 0 to 7 in GPIOB_CRH
-        ldr     r0, =GPIOB_CRH 
-        ldr     r3, =0x44444444 
-        str     r3, [r0] 
-
-
 		@ set pins PB5 - PB7 as digital output
         ldr     r0, =GPIOB_CRL
         ldr     r3, =0x33344444
@@ -85,7 +74,6 @@ setup:
 		str		r4, [r7]
 
 		mov		r2, 0x0
-
 loop:
 		@ Check if both, A0 and A4 are pressed at the same time
 		ldr		r0, =GPIOA_IDR
