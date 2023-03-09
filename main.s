@@ -118,6 +118,7 @@ inc_count:
     
     	@ Turn LEDs on
     	ldr 	r3, =GPIOB_ODR
+		ldr		r0, [r7, #4]
 		mov 	r1, r0
 		mov		r4, r0
 		lsl 	r1, r1, #5
