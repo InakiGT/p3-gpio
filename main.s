@@ -73,11 +73,11 @@ loop:
 		ldr		r0, =GPIOA_IDR
 		ldr 	r1, [r0]
 		and		r1, r1, 0x11
-		cmp		r1, 0x1
+		cmp		r1, 0x11
 		bne		.L6
 		bl      reset_count
 		mov		r2, r0
-		mov		r0, #1000    
+		mov		r0, #700    
 		bl   	delay
 	
 
