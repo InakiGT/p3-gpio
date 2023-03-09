@@ -79,7 +79,6 @@ loop:
 		mov		r2, r0
 		mov		r0, #1000    
 		bl   	delay
-	
 
 .L6:
     	@ Continue reading if any of them are pressed
@@ -127,7 +126,7 @@ inc_count:
 		mov		r4, r0
 		lsl 	r1, r1, #5
     	str 	r1, [r3]
-		mov		r0, #500    
+		mov		r0, #1000    
 		bl   	delay
 		mov		r0, r4
 		adds	r7, r7, #8
@@ -155,7 +154,7 @@ dec_count:
 		mov		r4, r0
 		lsl 	r1, r1, #5
 		str 	r1, [r3]
-		mov		r0, #500    
+		mov		r0, #1000    
 		bl   	delay
 		mov		r0, r4
 		adds	r7, r7, #8
@@ -174,7 +173,7 @@ reset_count:
 		mov 	r1, 0x0
 		str 	r1, [r3]
 		str		r1, [r7, #4]
-		mov		r0, #500    
+		mov		r0, #800    
 		bl   	delay
 		ldr		r3, [r7, #4]
 		mov 	r0, r3
