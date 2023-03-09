@@ -40,11 +40,47 @@ delay:
 		mov		sp, r7
 		pop 	{r7}
 		bx		lr
-.L7:
-		.align	2
-.L6:
-		.word	count
 
+inc_count:
+    	@ Increase counter
+    	adds	r2, r2, #1
+		ldr		r3, =0x3FF
+    	cmp 	r2, r3
+    	bgt 	reset_count   @ Jumps to "reset_count" if counter value is grather than 1023
+    
+    	@ Turn LEDs on
+    	ldr 	r0, =GPIOB_ODR
+		mov 	r1, r2
+		lsl 	r1, r1, #5
+    	str 	r1, [r0]
+		mov		r0, #500    
+		bl   	delay
+		b		loop
+
+dec_count:
+	   	@ Decrease counter
+    	sub 	r2, r2, #1
+    	cmp 	r2, #0
+    	blt 	reset_count   @ Jumps to "reset_count" if counter value is less than 0
+
+		@ Turn LEDs on
+		ldr 	r0, =GPIOB_ODR
+		mov 	r1, r2
+		lsl 	r1, r1, #5
+		str 	r1, [r0]
+		mov		r0, #500    
+		bl   	delay
+		b		loop
+
+reset_count:
+		@ Turn LEDs off
+		ldr 	r0, =GPIOB_ODR
+		mov 	r1, 0x0
+		mov 	r2, r1
+		str 	r1, [r0]
+		mov		r0, #500    
+		bl   	delay
+		b		loop
 
 
 setup:
@@ -101,44 +137,3 @@ loop:
     	bne 	dec_count 
 
 		b 		loop
-
-inc_count:
-    	@ Increase counter
-    	adds	r2, r2, #1
-		ldr		r3, =0x3FF
-    	cmp 	r2, r3
-    	bgt 	reset_count   @ Jumps to "reset_count" if counter value is grather than 1023
-    
-    	@ Turn LEDs on
-    	ldr 	r0, =GPIOB_ODR
-		mov 	r1, r2
-		lsl 	r1, r1, #5
-    	str 	r1, [r0]
-		mov		r0, #500    
-		bl   	delay
-		b		loop
-
-dec_count:
-	   	@ Decrease counter
-    	sub 	r2, r2, #1
-    	cmp 	r2, #0
-    	blt 	reset_count   @ Jumps to "reset_count" if counter value is less than 0
-
-		@ Turn LEDs on
-		ldr 	r0, =GPIOB_ODR
-		mov 	r1, r2
-		lsl 	r1, r1, #5
-		str 	r1, [r0]
-		mov		r0, #500    
-		bl   	delay
-		b		loop
-
-reset_count:
-		@ Turn LEDs off
-		ldr 	r0, =GPIOB_ODR
-		mov 	r1, 0x0
-		mov 	r2, r1
-		str 	r1, [r0]
-		mov		r0, #500    
-		bl   	delay
-		b		loop
