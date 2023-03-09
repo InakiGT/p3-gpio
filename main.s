@@ -95,8 +95,12 @@ loop:
     	ldr 	r1, [r0]
     	and 	r1, r1, 0x10
     	cmp 	r1, 0x0
-    	bne 	dec_count 
+    	beq 	.L7
+		mov		r0, r2
+		bl		dec_count
+		mov		r2, r0
 
+.L7:
 		b 		loop
 
 inc_count:
