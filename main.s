@@ -171,8 +171,7 @@ loop:
     	and 	r1, r1, 0x01
     	cmp 	r1, 0x0
     	beq 	.L7
-		@ ldr		r0, [r7, #4]
-		mov		r0, r3
+		ldr		r0, [r7, #4]
 		bl 		inc_count
 		str		r0, [r7, #4]
 
