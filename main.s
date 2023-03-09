@@ -119,32 +119,36 @@ reset_count:
 		bx		lr
 
 setup:
+		push 	{r7, lr}
+		sub 	sp, sp, #8
+		add		r7, sp, #0
         @ enabling clock in port A, B and C
-        ldr     r0, =RCC_APB2ENR
+        ldr     r2, =RCC_APB2ENR
         mov     r3, 0x1C 
-        str     r3, [r0]
+        str     r3, [r2]
 
 		@ set pins PB5 - PB7 as digital output
-        ldr     r0, =GPIOB_CRL
+        ldr     r2, =GPIOB_CRL
         ldr     r3, =0x33344444
-        str     r3, [r0]
+        str     r3, [r2]
 
 		@ set pins PB8 - PB15 as digital output
-        ldr     r0, =GPIOB_CRH
+        ldr     r2, =GPIOB_CRH
         ldr     r3, =0x33333333
-        str     r3, [r0]
+        str     r3, [r2]
 
         @ set pins PA0 and PA4 as digital input
-        ldr     r0, =GPIOA_CRL
+        ldr     r2, =GPIOA_CRL
         ldr     r3, =0x44484448
-        str     r3, [r0]
+        str     r3, [r2]
 
         # set led status initial value
 		ldr     r7, =GPIOB_ODR
 		mov		r4, 0x0
 		str		r4, [r7]
 
-		mov		r2, 0x0
+		mov		r3, 0x0
+		str		r3, [r7, #4]
 loop:
 		@ Check if both, A0 and A4 are pressed at the same time
 		ldr		r0, =GPIOA_IDR
@@ -166,9 +170,9 @@ loop:
     	and 	r1, r1, 0x01
     	cmp 	r1, 0x0
     	beq 	.L7     
-		mov		r0, r2
+		ldr		r0, [r7, #4]
 		bl 		inc_count
-		mov		r2, r0
+		str		r0, [r7, #4]
 
 .L7:		
     	@ Check if A4 is pressed
@@ -177,9 +181,9 @@ loop:
     	and 	r1, r1, 0x10
     	cmp 	r1, 0x0
     	beq 	.L8
-		mov		r0, r2
+		ldr		r0, [r7, #4]
 		bl		dec_count
-		mov		r2, r0
+		str		r0, [r7, #4]
 
 .L8:
 		b 		loop
