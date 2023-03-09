@@ -41,48 +41,6 @@ delay:
 		pop 	{r7}
 		bx		lr
 
-inc_count:
-    	@ Increase counter
-    	adds	r2, r2, #1
-		ldr		r3, =0x3FF
-    	cmp 	r2, r3
-    	bgt 	reset_count   @ Jumps to "reset_count" if counter value is grather than 1023
-    
-    	@ Turn LEDs on
-    	ldr 	r0, =GPIOB_ODR
-		mov 	r1, r2
-		lsl 	r1, r1, #5
-    	str 	r1, [r0]
-		mov		r0, #500    
-		bl   	delay
-		b		loop
-
-dec_count:
-	   	@ Decrease counter
-    	sub 	r2, r2, #1
-    	cmp 	r2, #0
-    	blt 	reset_count   @ Jumps to "reset_count" if counter value is less than 0
-
-		@ Turn LEDs on
-		ldr 	r0, =GPIOB_ODR
-		mov 	r1, r2
-		lsl 	r1, r1, #5
-		str 	r1, [r0]
-		mov		r0, #500    
-		bl   	delay
-		b		loop
-
-reset_count:
-		@ Turn LEDs off
-		ldr 	r0, =GPIOB_ODR
-		mov 	r1, 0x0
-		mov 	r2, r1
-		str 	r1, [r0]
-		mov		r0, #500    
-		bl   	delay
-		b		loop
-
-
 setup:
         @ enabling clock in port A, B and C
         ldr     r0, =RCC_APB2ENR
@@ -119,7 +77,6 @@ loop:
 		beq		reset_count
 		mov		r0, #700    
 		bl   	delay
-
 	
     	@ Continue reading if any of them are pressed
 		@ Check if A0 is pressed
@@ -127,8 +84,12 @@ loop:
     	ldr 	r1, [r0]
     	and 	r1, r1, #0x01
     	cmp 	r1, 0x0
-    	bne 	inc_count     
-		
+    	beq 	.L6     
+		mov		r0, r2
+		bl 		inc_count
+		b		loop
+
+.L6:		
     	@ Check if A4 is pressed
     	ldr 	r0, =GPIOA_IDR
     	ldr 	r1, [r0]
@@ -137,3 +98,46 @@ loop:
     	bne 	dec_count 
 
 		b 		loop
+
+inc_count:
+    	@ Increase counter
+		push 	{r7}
+		sub 	sp, sp, #12
+    	adds	r0, r0, #1
+		ldr		r3, =0x3FF
+    	cmp 	r0, r3
+    	bgt 	reset_count   @ Jumps to "reset_count" if counter value is grather than 1023
+    
+    	@ Turn LEDs on
+    	ldr 	r3, =GPIOB_ODR
+		mov 	r1, r0
+		lsl 	r1, r1, #5
+    	str 	r1, [r3]
+		mov		r0, #500    
+		bl   	delay
+		bx		lr
+
+dec_count:
+	   	@ Decrease counter
+    	sub 	r2, r2, #1
+    	cmp 	r2, #0
+    	blt 	reset_count   @ Jumps to "reset_count" if counter value is less than 0
+
+		@ Turn LEDs on
+		ldr 	r0, =GPIOB_ODR
+		mov 	r1, r2
+		lsl 	r1, r1, #5
+		str 	r1, [r0]
+		mov		r0, #500    
+		bl   	delay
+		b		loop
+
+reset_count:
+		@ Turn LEDs off
+		ldr 	r0, =GPIOB_ODR
+		mov 	r1, 0x0
+		mov 	r2, r1
+		str 	r1, [r0]
+		mov		r0, #500    
+		bl   	delay
+		b		loop
