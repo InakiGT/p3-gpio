@@ -122,9 +122,10 @@ setup:
 		push 	{r7, lr}
 		sub 	sp, sp, #8
 		add		r7, sp, #0
+		
         @ enabling clock in port A, B and C
         ldr     r2, =RCC_APB2ENR
-        mov     r3, 0x1C 
+        mov     r3, 0x1C
         str     r3, [r2]
 
 		@ set pins PB5 - PB7 as digital output
@@ -158,7 +159,7 @@ loop:
 		bne		.L6
 		bl      reset_count
 		str		r0, [r7, #4]
-		mov		r0, #700    
+		mov		r0, #700
 		bl   	delay
 	
 
@@ -169,8 +170,9 @@ loop:
     	ldr 	r1, [r0]
     	and 	r1, r1, 0x01
     	cmp 	r1, 0x0
-    	beq 	.L7     
-		ldr		r0, [r7, #4]
+    	beq 	.L7
+		@ ldr		r0, [r7, #4]
+		mov		r0, r3
 		bl 		inc_count
 		str		r0, [r7, #4]
 
