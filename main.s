@@ -74,33 +74,37 @@ loop:
 		ldr 	r1, [r0]
 		and		r1, r1, 0x11
 		cmp		r1, 0x11
-		beq		reset_count
+		bne		.L6
+		bl      reset_count
+		mov		r2, r0
 		mov		r0, #700    
 		bl   	delay
 	
+
+.L6:
     	@ Continue reading if any of them are pressed
 		@ Check if A0 is pressed
     	ldr 	r0, =GPIOA_IDR
     	ldr 	r1, [r0]
     	and 	r1, r1, 0x01
     	cmp 	r1, 0x0
-    	beq 	.L6     
+    	beq 	.L7     
 		mov		r0, r2
 		bl 		inc_count
 		mov		r2, r0
 
-.L6:		
+.L7:		
     	@ Check if A4 is pressed
     	ldr 	r0, =GPIOA_IDR
     	ldr 	r1, [r0]
     	and 	r1, r1, 0x10
     	cmp 	r1, 0x0
-    	beq 	.L7
+    	beq 	.L8
 		mov		r0, r2
 		bl		dec_count
 		mov		r2, r0
 
-.L7:
+.L8:
 		b 		loop
 
 inc_count:
@@ -162,10 +166,20 @@ dec_count:
 
 reset_count:
 		@ Turn LEDs off
-		ldr 	r0, =GPIOB_ODR
+		push 	{r7, lr}
+		sub 	sp, sp, #8
+		add		r7, sp, #0
+
+		ldr 	r3, =GPIOB_ODR
 		mov 	r1, 0x0
-		mov 	r2, r1
-		str 	r1, [r0]
+		str 	r1, [r3]
+		str		r1, [r7, #4]
 		mov		r0, #500    
 		bl   	delay
-		b		loop
+		ldr		r3, [r7, #4]
+		mov 	r0, r3
+		adds	r7, r7, #8
+		mov		sp, r7
+		pop 	{r7}
+		pop		{lr}
+		bx		lr
