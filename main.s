@@ -87,6 +87,7 @@ loop:
     	beq 	.L6     
 		mov		r0, r2
 		bl 		inc_count
+		mov		r2, r0
 
 .L6:		
     	@ Check if A4 is pressed
@@ -113,10 +114,12 @@ inc_count:
     	@ Turn LEDs on
     	ldr 	r3, =GPIOB_ODR
 		mov 	r1, r0
+		mov		r4, r0
 		lsl 	r1, r1, #5
     	str 	r1, [r3]
 		mov		r0, #500    
 		bl   	delay
+		mov		r0, r4
 		adds	r7, r7, #8
 		mov		sp, r7
 		pop 	{r7}
