@@ -157,7 +157,7 @@ loop:
 		cmp		r1, 0x11
 		bne		.L6
 		bl      reset_count
-		mov		r2, r0
+		str		r0, [r7, #4]
 		mov		r0, #700    
 		bl   	delay
 	
