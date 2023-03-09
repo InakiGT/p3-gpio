@@ -87,7 +87,7 @@ loop:
     	beq 	.L6     
 		mov		r0, r2
 		bl 		inc_count
-		
+
 .L6:		
     	@ Check if A4 is pressed
     	ldr 	r0, =GPIOA_IDR
@@ -100,8 +100,8 @@ loop:
 
 inc_count:
     	@ Increase counter
-		push 	{r7}
-		sub 	sp, sp, #12
+		push 	{r7, lr}
+		sub 	sp, sp, #8
     	adds	r0, r0, #1
 		ldr		r3, =0x3FF
     	cmp 	r0, r3
@@ -114,6 +114,9 @@ inc_count:
     	str 	r1, [r3]
 		mov		r0, #500    
 		bl   	delay
+		adds	r7, r7, #8
+		mov		sp, r7
+		pop 	{r7}
 		bx		lr
 
 dec_count:
