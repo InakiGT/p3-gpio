@@ -113,6 +113,7 @@ inc_count:
     
     	@ Turn LEDs on
     	ldr 	r3, =GPIOB_ODR
+		ldr		r0, [r7, #4]
 		mov 	r1, r0
 		mov		r4, r0
 		lsl 	r1, r1, #5
@@ -128,18 +129,30 @@ inc_count:
 
 dec_count:
 	   	@ Decrease counter
-    	sub 	r2, r2, #1
-    	cmp 	r2, #0
+		push 	{r7, lr}
+		sub 	sp, sp, #8
+		add		r7, sp, #0
+		str		r0, [r7, #4]
+		ldr		r0, [r7, #4]
+    	sub 	r0, r0, #1
+    	cmp 	r0, #0
     	blt 	reset_count   @ Jumps to "reset_count" if counter value is less than 0
 
 		@ Turn LEDs on
 		ldr 	r0, =GPIOB_ODR
-		mov 	r1, r2
+		ldr		r0, [r7, #4]
+		mov 	r1, r0
+		mov		r4, r0
 		lsl 	r1, r1, #5
 		str 	r1, [r0]
 		mov		r0, #500    
 		bl   	delay
-		b		loop
+		mov		r0, r4
+		adds	r7, r7, #8
+		mov		sp, r7
+		pop 	{r7}
+		pop		{lr}
+		bx		lr
 
 reset_count:
 		@ Turn LEDs off
