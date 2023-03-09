@@ -102,6 +102,9 @@ inc_count:
     	@ Increase counter
 		push 	{r7, lr}
 		sub 	sp, sp, #8
+		add		r7, sp, #0
+		str		r0, [r7, #4]
+		ldr		r0, [r7, #4]
     	adds	r0, r0, #1
 		ldr		r3, =0x3FF
     	cmp 	r0, r3
