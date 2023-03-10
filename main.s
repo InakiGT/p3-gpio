@@ -168,8 +168,8 @@ loop:
     	ldr 	r0, =GPIOA_IDR
     	ldr 	r1, [r0]
     	and 	r1, r1, 0x01
-    	cmp 	r1, 0x0
-    	beq 	.L7
+    	cmp 	r1, 0x1
+    	bne 	.L7
 		ldr		r0, [r7, #4]
 		@ bl 		inc_count
 		adds	r0, r0, #1
