@@ -148,8 +148,8 @@ setup:
 		mov		r4, 0x0
 		str		r4, [r7]
 
-		mov		r3, 0x0
-		str		r3, [r7, #4]
+		mov		r2, 0x0
+		@ str		r3, [r7, #4]
 loop:
 		@ Check if both, A0 and A4 are pressed at the same time
 		ldr		r0, =GPIOA_IDR
@@ -159,9 +159,9 @@ loop:
 		bne		.L6
 		bl      reset_count
 		str		r0, [r7, #4]
+		mov		r2, r0
 		mov		r0, #700
 		bl   	delay
-	
 
 .L6:
     	@ Continue reading if any of them are pressed
@@ -171,9 +171,11 @@ loop:
     	and 	r1, r1, 0x01
     	cmp 	r1, 0x0
     	beq 	.L7
-		ldr		r0, [r7, #4]
+		mov 	r0, r2
+		@ ldr		r0, [r7, #4]
 		bl 		inc_count
 		str		r0, [r7, #4]
+		mov		r2, r0
 
 .L7:		
     	@ Check if A4 is pressed
@@ -182,9 +184,11 @@ loop:
     	and 	r1, r1, 0x10
     	cmp 	r1, 0x0
     	beq 	.L8
-		ldr		r0, [r7, #4]
+		mov		r0, r0
+		@ ldr		r0, [r7, #4]
 		bl		dec_count
 		str		r0, [r7, #4]
+		mov		r2, r0
 
 .L8:
 		b 		loop
