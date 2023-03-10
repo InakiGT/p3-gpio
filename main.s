@@ -175,8 +175,10 @@ loop:
 		adds	r0, r0, #1
 		str		r0, [r7, #4]
 		ldr		r3, [r7, #4]
+		mov		r2, r3
+		lsl		r2, #5
 		ldr 	r4, =GPIOB_ODR
-		str		r3, [r4]
+		str		r2, [r4]
 		mov		r0, #500
 		bl		delay
 		@ str		r0, [r7, #4]
