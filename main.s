@@ -59,7 +59,7 @@ inc_count:
 		ldr		r0, [r7, #4]
 		mov 	r1, r0
 		mov		r4, r0
-		lsl 	r1, r1, #5
+		lsl 	r1, r1, #6
     	str 	r1, [r3]
 		mov		r0, #500    
 		bl   	delay
@@ -87,7 +87,7 @@ dec_count:
 		ldr		r0, [r7, #4]
 		mov 	r1, r0
 		mov		r4, r0
-		lsl 	r1, r1, #5
+		lsl 	r1, r1, #6
 		str 	r1, [r3]
 		mov		r0, #500    
 		bl   	delay
