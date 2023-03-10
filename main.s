@@ -52,18 +52,18 @@ inc_count:
 		str		r0, [r7, #4]
 		ldr		r3, =0x3FF
     	cmp 	r0, r3
-    	bgt 	reset_count   @ Jumps to "reset_count" if counter value is grather than 1023
-    
+    	ble 	.L9   @ Jumps to "reset_count" if counter value is grather than 1023
+		bl		reset_count
+.L9:
     	@ Turn LEDs on
     	ldr 	r3, =GPIOB_ODR
 		ldr		r0, [r7, #4]
 		mov 	r1, r0
-		mov		r4, r0
 		lsl 	r1, r1, #5
     	str 	r1, [r3]
 		mov		r0, #500    
 		bl   	delay
-		mov		r0, r4
+		ldr		r0, [r7, #4]
 		adds	r7, r7, #8
 		mov		sp, r7
 		pop 	{r7}
@@ -151,7 +151,7 @@ setup:
 		mov		r3, 0x0
 		str		r3, [r7, #4]
 loop:
-		@ Check if both, A0 and A4 are pressed at the same time
+		@ Check if both A0 and A4 are pressed at the same time
 		ldr		r0, =GPIOA_IDR
 		ldr 	r1, [r0]
 		and		r1, r1, 0x11
