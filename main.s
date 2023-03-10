@@ -67,6 +67,7 @@ inc_count:
 		adds	r7, r7, #8
 		mov		sp, r7
 		pop 	{r7}
+		pop		{lr}
 		bx		lr
 
 dec_count:
@@ -94,6 +95,7 @@ dec_count:
 		adds	r7, r7, #8
 		mov		sp, r7
 		pop 	{r7}
+		pop		{lr}
 		bx		lr
 
 reset_count:
