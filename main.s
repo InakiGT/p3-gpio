@@ -51,9 +51,9 @@ inc_count:
     	adds	r0, r0, #1
 		str		r0, [r7, #4]
 		ldr		r3, =0x3FF
-    	cmp 	r0, r3
-    	ble 	.L9   @ Jumps to "reset_count" if counter value is grather than 1023
-		bl		reset_count
+    	@ cmp 	r0, r3
+    	@ ble 	.L9   @ Jumps to "reset_count" if counter value is grather than 1023
+		@ bl		reset_count
 .L9:
     	@ Turn LEDs on
     	ldr 	r3, =GPIOB_ODR
@@ -79,10 +79,10 @@ dec_count:
 		ldr		r0, [r7, #4]
     	sub 	r0, r0, #1
 		str		r0, [r7, #4]
-    	cmp 	r0, #0
-		bge		.L10
-    	bl 		reset_count   @ Jumps to "reset_count" if counter value is less than 0
-		str		r0, [r7, #4]
+    	@ cmp 	r0, #0
+		@ bge		.L10
+    	@ bl 		reset_count   @ Jumps to "reset_count" if counter value is less than 0
+		@ str		r0, [r7, #4]
 .L10:
 		@ Turn LEDs on
 		ldr 	r3, =GPIOB_ODR
@@ -105,7 +105,6 @@ reset_count:
 		push 	{r7, lr}
 		sub 	sp, sp, #8
 		add		r7, sp, #0
-
 		ldr 	r3, =GPIOB_ODR
 		mov 	r1, 0x0
 		str 	r1, [r3]
