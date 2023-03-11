@@ -80,10 +80,8 @@ dec_count:
     	sub 	r0, r0, #1
 		str		r0, [r7, #4]
     	cmp 	r0, #0
-    	bge 	.L10   @ Jumps to "reset_count" if counter value is less than 0
-		bl		reset_count
-		str		r0, [r7, #4]
-.L10:
+    	blt 	reset_count   @ Jumps to "reset_count" if counter value is less than 0
+
 		@ Turn LEDs on
 		ldr 	r3, =GPIOB_ODR
 		ldr		r0, [r7, #4]
