@@ -56,6 +56,7 @@ inc_count:
     	cmp 	r0, r3
     	ble 	.L9   @ Jumps to "reset_count" if counter value is grather than 1023
 		bl		reset_count
+		str		r0, [r7, #4]
 .L9:
     	@ Turn LEDs on
     	ldr 	r3, =GPIOB_ODR
