@@ -145,9 +145,9 @@ setup:
         str     r3, [r2]
 
         # set led status initial value
-		ldr     r7, =GPIOB_ODR
+		ldr     r8, =GPIOB_ODR
 		mov		r4, 0x0
-		str		r4, [r7]
+		str		r4, [r8]
 
 		mov		r3, 0x0
 		str		r3, [r7, #4]
