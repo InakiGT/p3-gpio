@@ -72,7 +72,7 @@ dec_count:
 		add		r7, sp, #0
 		str		r0, [r7, #4]
 		ldr		r0, [r7, #4]
-    	sub 	r0, r0, #1
+    	subs 	r0, r0, #1
 		str		r0, [r7, #4]
     	cmp 	r0, #0
 		bge		.L10
@@ -132,7 +132,7 @@ setup:
 
         # set led status initial value
 		ldr     r3, =GPIOB_ODR
-		mov		r4, 0xFF
+		mov		r4, 0x0
 		str		r4, [r3]
 
 		mov		r3, 0x0
