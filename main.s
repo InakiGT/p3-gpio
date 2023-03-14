@@ -58,14 +58,6 @@ inc_count:
 		bl		reset_count
 		str		r0, [r7, #4]
 .L9:
-    	@ Turn LEDs on
-    	ldr 	r3, =GPIOB_ODR
-		ldr		r0, [r7, #4]
-		mov 	r1, r0
-		lsl 	r1, r1, #5
-    	str 	r1, [r3]
-		mov		r0, #500    
-		bl   	delay
 		ldr		r0, [r7, #4]
 		adds	r7, r7, #8
 		mov		sp, r7
@@ -87,15 +79,7 @@ dec_count:
     	bl 		reset_count   @ Jumps to "reset_count" if counter value is less than 0
 		str		r0, [r7, #4]
 .L10:
-		@ Turn LEDs on
-		ldr 	r3, =GPIOB_ODR
 		ldr		r0, [r7, #4]
-		mov 	r1, r0
-		mov		r4, r0
-		lsl 	r1, r1, #5
-		str 	r1, [r3]
-		mov		r0, #500    
-		bl   	delay
 		mov		r0, r4
 		adds	r7, r7, #8
 		mov		sp, r7
@@ -190,4 +174,12 @@ loop:
 		str		r0, [r7, #4]
 
 .L8:
+		@ Turn LEDs on
+    	ldr 	r3, =GPIOB_ODR
+		ldr		r0, [r7, #4]
+		mov 	r1, r0
+		lsl 	r1, r1, #5
+    	str 	r1, [r3]
+		mov		r0, #500    
+		bl   	delay
 		b 		loop
