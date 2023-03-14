@@ -80,7 +80,6 @@ dec_count:
 		str		r0, [r7, #4]
 .L10:
 		ldr		r0, [r7, #4]
-		mov		r0, r4
 		adds	r7, r7, #8
 		mov		sp, r7
 		pop 	{r7}
